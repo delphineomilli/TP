@@ -8,12 +8,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4527ED29-3568-437B-8D9A-35FEA8F663E0}</ProjectGuid>
+    <ProjectGuid>{8B99E536-61D2-4F6B-B0D3-F7531B9AC39F}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TP1Module5</RootNamespace>
-    <AssemblyName>TP1Module5</AssemblyName>
+    <RootNamespace>TPPizza</RootNamespace>
+    <AssemblyName>TPPizza</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -120,13 +120,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Database\FakeDb.cs" />
+    <Compile Include="Controllers\PizzaController.cs" />
+    <Compile Include="Database\FakeDbPizza.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Chat.cs" />
+    <Compile Include="Models\PizzaCreateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,9 +165,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Chat\Detail.cshtml" />
-    <Content Include="Views\Chat\Delete.cshtml" />
+    <Content Include="Views\Pizza\Create.cshtml" />
+    <Content Include="Views\Pizza\Edit.cshtml" />
+    <Content Include="Views\Pizza\Delete.cshtml" />
+    <Content Include="Views\Pizza\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -187,7 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="F:\CDA\ASP.NET\RAZOR\BO\BO\BO.csproj">
-      <Project>{6066EAAA-6025-49BC-A1F3-FC6447C42CD9}</Project>
+      <Project>{6066eaaa-6025-49bc-a1f3-fc6447c42cd9}</Project>
       <Name>BO</Name>
     </ProjectReference>
   </ItemGroup>
@@ -207,9 +208,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1171</DevelopmentServerPort>
+          <DevelopmentServerPort>5601</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1171/</IISUrl>
+          <IISUrl>http://localhost:5601/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
