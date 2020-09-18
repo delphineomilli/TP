@@ -20,26 +20,45 @@ namespace TPPizza.Database
         private FakeDbPizza()
         {
             this.ListePizza = new List<Pizza>();
-            this.ListeIngredient = new List<Ingredient>();
-            this.ListePate = new List<Pate>();
-            this.InitialiserDatas();
+            this.IngredientsDisponible = this.InitIngredientsDisponibles();
+            this.PatesDisponible = this.InitPatesDisponibles();
         }
 
         public List<Pizza> ListePizza { get; private set; }
 
-        public List<Ingredient> ListeIngredient { get; private set; }
+        public List<Ingredient> IngredientsDisponible { get; private set; }
 
-        public List<Pate> ListePate { get; private set; }
+        public List<Pate> PatesDisponible { get; private set; }
 
-        private void InitialiserDatas()
+        private List<Ingredient> InitIngredientsDisponibles()
         {
-            var i = 1;
+            List<Ingredient> result = new List<Ingredient>();
+            result.Add(new Ingredient { Id = 1, Nom = "Mozzarella" });
+            result.Add(new Ingredient { Id = 2, Nom = "Jambon" });
+            result.Add(new Ingredient { Id = 3, Nom = "Tomate" });
+            result.Add(new Ingredient { Id = 4, Nom = "Oignon" });
+            result.Add(new Ingredient { Id = 5, Nom = "Cheddar" });
+            result.Add(new Ingredient { Id = 6, Nom = "Saumon" });
+            result.Add(new Ingredient { Id = 7, Nom = "Champignon" });
+            result.Add(new Ingredient { Id = 8, Nom = "Poulet" });
 
-            ListePizza.Add(new Pizza { Id = i++, Nom = "Felix", Ingredients = { "Champignon", "Jambon" }, Pate = "Pate fine, base crême" });
-            ListePizza.Add(new Pizza { Id = i++, Nom = "Felix", Ingredients = {"Tomate", "Poulet" }, Pate = "Pate épaisse, base tomate" });
-            ListePizza.Add(new Pizza { Id = i++, Nom = "Felix", Ingredients = { "Jambon", "Cheddar" }, Pate = "Pate épaisse, base crême" });
-          
+            return result;
         }
+
+        private List<Pate> InitPatesDisponibles()
+        {
+            List<Pate> result = new List<Pate>();
+            result.Add(new Pate { Id = 1, Nom = "Pate fine, base crême" });
+            result.Add(new Pate { Id = 2, Nom = "Pate fine, base tomate" });
+            result.Add(new Pate { Id = 3, Nom = "Pate épaisse, base crême" });
+            result.Add(new Pate { Id = 4, Nom = "Pate épaisse, base tomate" });
+
+            return result;
+        }
+
+
+
+
 
     }       
 }

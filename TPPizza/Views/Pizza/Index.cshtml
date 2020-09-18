@@ -15,10 +15,10 @@
             @Html.DisplayNameFor(model => model.Nom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ingredients)
+            @Html.DisplayNameFor(model => model.Pate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Pate)
+            @Html.DisplayNameFor(model => model.Ingredients)
         </th>
         <th></th>
     </tr>
@@ -28,9 +28,21 @@
         <td>
             @Html.DisplayFor(modelItem => item.Nom)
         </td>
-        <td></td>
         <td>
-            @Html.DisplayFor(modelItem => item.Pate.Nom)
+            @if (item.Pate != null)
+            {
+                @Html.DisplayFor(modelItem => item.Pate.Nom)
+            }
+        </td>
+        <td>
+            @if (item.Ingredients != null)
+            {
+                foreach (var ingredient in item.Ingredients)
+                {
+                    @Html.DisplayFor(i => ingredient.Nom)<br>
+                }
+            }
+
         </td>
 
         <td>

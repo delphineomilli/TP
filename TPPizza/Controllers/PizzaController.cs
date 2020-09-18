@@ -23,7 +23,10 @@ namespace TPPizza.Controllers
         {
 
             PizzaCreateViewModel vm = new PizzaCreateViewModel();
-            vm.Pate = FakeDbPizza.Instance.ListePate;
+            vm.Pates = FakeDbPizza.Instance.PatesDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList(); // To list c'est pour éviter un pb de cast
+
+            vm.Ingredients = FakeDbPizza.Instance.IngredientsDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+            
             return View(vm);
         }
 
@@ -33,32 +36,81 @@ namespace TPPizza.Controllers
         {
             try
             {
-                vm.Pizza.Pate = FakeDbPizza.Instance.ListePate.FirstOrDefault(x => x.Id == vm.IdPate);
-                FakeDbPizza.Instance.ListePate.Add(vm.Pizza.Pate);
+                if (ModelState.IsValid && ValidateVM(vm))
+                {
+                    // Pizza pizza = vm.Pizza;
 
-                return RedirectToAction("Index");
+                    vm.Pizza.Pate = FakeDbPizza.Instance.PatesDisponible.FirstOrDefault(x => x.Id == vm.IdPate);
+
+                    vm.Pizza.Ingredients = FakeDbPizza.Instance.IngredientsDisponible.Where(x => vm.IdIngredients.Contains(x.Id)).ToList();
+                    //si jamais la liste est vide on prend lid 1 sinon on prend l'id le plus grand et on ajoute 1
+                    vm.Pizza.Id = FakeDbPizza.Instance.ListePizza.Count == 0 ? 1 : FakeDbPizza.Instance.ListePizza.Max(x => x.Id) + 1;
+
+                    FakeDbPizza.Instance.ListePizza.Add(vm.Pizza);
+
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    vm.Pates = FakeDbPizza.Instance.PatesDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+                    
+                    vm.Ingredients = FakeDbPizza.Instance.IngredientsDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+                    
+                    return View(vm);
+                }
             }
             catch
             {
-                vm.Pate = FakeDbPizza.Instance.ListePate;
+                vm.Pates = FakeDbPizza.Instance.PatesDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+
+                vm.Ingredients = FakeDbPizza.Instance.IngredientsDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+
                 return View(vm);
             }
+        }
+
+        private bool ValidateVM(PizzaCreateViewModel vm)
+        {
+            bool result = true;
+            return result;
         }
 
         // GET: Pizza/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            PizzaCreateViewModel vm = new PizzaCreateViewModel();
+
+            vm.Pates = FakeDbPizza.Instance.PatesDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+
+            vm.Ingredients = FakeDbPizza.Instance.IngredientsDisponible.Select(x => new SelectListItem { Text = x.Nom, Value = x.Id.ToString() }).ToList();
+
+            vm.Pizza = FakeDbPizza.Instance.ListePizza.FirstOrDefault(x => x.Id == id);
+
+           if (vm.Pizza.Pate != null)
+           {
+                vm.IdPate = vm.Pizza.Pate.Id;
+           }
+
+           if (vm.Pizza.Ingredients.Any())
+           {
+                vm.IdIngredients = vm.Pizza.Ingredients.Select(x => x.Id).ToList();
+           }
+           
+            return View(vm);
         }
 
         // POST: Pizza/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(PizzaCreateViewModel vm)
         {
             try
             {
-                // TODO: Add update logic here
-
+                Pizza pizza = FakeDbPizza.Instance.ListePizza.FirstOrDefault(x => x.Id == vm.Pizza.Id);
+                pizza.Nom = vm.Pizza.Nom;
+                pizza.Pate = FakeDbPizza.Instance.PatesDisponible.FirstOrDefault(x => x.Id == vm.IdPate);
+                pizza.Ingredients = FakeDbPizza.Instance.IngredientsDisponible.Where(x => vm.IdIngredients.Contains(x.Id)).ToList();
+                
                 return RedirectToAction("Index");
             }
             catch
@@ -70,36 +122,29 @@ namespace TPPizza.Controllers
         // GET: Pizza/Delete/5
         public ActionResult Delete(int id)
         {
-             Pizza pizza = FakeDbPizza.Instance.ListePizza.FirstOrDefault(x => x.Id == id);
+            PizzaCreateViewModel vm = new PizzaCreateViewModel();
+             vm.Pizza = FakeDbPizza.Instance.ListePizza.FirstOrDefault(x => x.Id == id);
+    
+             return View(vm);
 
-             if (pizza != null)
-             {
-                return View(pizza);
-             }
-
-            else
-            {
-                return RedirectToAction("Index");
-            }
         }
 
         // POST: Pizza/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-
-            Pizza pizza = null;
-
+           
             try
             {
-                pizza = FakeDbPizza.Instance.ListePizza.FirstOrDefault(x => x.Id == id);
+               
+                Pizza pizza = FakeDbPizza.Instance.ListePizza.FirstOrDefault(x => x.Id == id);
                 FakeDbPizza.Instance.ListePizza.Remove(pizza);
-
                 return RedirectToAction("Index");
+               
             }
             catch
             {
-                return View(pizza);
+                return View();
             }
         }
     }
